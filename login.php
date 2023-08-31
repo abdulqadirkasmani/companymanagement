@@ -14,7 +14,7 @@
 		<div class="login-rt">
 			<div class="login-box">
 				<div class="titlearea text-center mb-2">
-					<a href="javascript:;"><img src="images/main-logo.png" alt=""></a>
+					<a href="javascript:;"><img src="" alt=""></a>
 				</div>
 				<div class="log-reg-tabs">
 					<form action="" method="post" class="login-form" id="login-form">

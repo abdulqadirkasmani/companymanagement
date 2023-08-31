@@ -96,5 +96,8 @@ if($_POST['reason'] == 'create-client') {
 	echo json_encode($returnArr);
 }
 
-
+if($_POST['reason'] == 'create-shipment') {
+	print_r($_POST);
+	die;
+}
 ?>
