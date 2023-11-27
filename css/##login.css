@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+section#login {
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    background-image: url('../images/setbg.jpg');
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+}
+#login .login-rt {
+    height: 100vh;
+}
+#login .login-rt .rt-top {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+#login .login-rt  .login-box {
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height:  100%;
+    width: 30%;
+}
+
+#login .login-rt .login-box h3 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+#login .login-rt .login-box label {
+    display: block;
+    color: #8A96A5;
+    margin-bottom: 5px;
+}
+
+#login .login-rt .login-box input {
+    background: #FFFFFF;
+    border: 1px solid rgba(65, 73, 78, 0.3);
+    border-radius: 10px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    width: 100%;
+    padding: 12px 20px;
+    color: #8A96A5;
+    outline: none;
+}
+#login .login-rt .login-box input.error-inp {
+    border-color: red;
+}
+#login .login-rt .login-box .form-field {
+    margin-bottom: 20px;
+}
+
+#login .login-rt .login-box .form-field .pass-field {
+    position: relative;
+}
+
+#login .login-rt .login-box .form-field .pass-field img {
+    position: absolute;
+    right: 23px;
+    cursor: pointer;
+    top: 18px;
+}
+#login .login-rt .login-box .form-field .pass-field img.eyefull {
+    top: 10px;
+    right: 21px;
+}
+#login .login-rt .login-box .form-field.flex-area {display: flex;align-items: center;justify-content: space-between;margin-top: 20px;margin-bottom: 20px;}
+
+#login .login-rt .login-box .flex-area label {
+    margin-bottom: 0;
+}
+
+#login .login-rt .login-box .form-field.flex-area a {
+    font-weight: 400;
+    font-size: 15px;
+    color: #1778E9;
+    text-decoration: none;
+}
+
+#login .login-rt .login-box  button {
+    border-radius: 4px;
+    background-color: #396AFC;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    color: #fff;
+    font-weight: 600;
+    font-size: 19px;
+    padding: 12px 0;
+}
+#login .login-rt .login-box form {
+    margin-bottom: 25px;
+}
+.titlearea a {
+    display: block;
+}
+.log-reg-tabs {
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 10px #333;
+    border-radius: 40px;
+    padding: 70px 30px;
+}

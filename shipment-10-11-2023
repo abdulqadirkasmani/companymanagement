@@ -1,0 +1,611 @@
+<?php ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE); 
+$pageName = 'Shipment'; include('inc/header.php');
+
+?>
+<div class="content-body">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-body pt-3">
+					<a href="javascript:;" class="btn btn-dark advance-filter">Advance Filters</a>
+					<div class="basic-form mt-2 filter-form" style="display: none;">
+               <form action="" method="get" class="form-filter">
+               	<div class="row align-items-end">
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">GD Status</label>
+                              <select class="form-control" name="gd">
+                              	<option value="">Select GD Status</option>
+                              	<option value="0">GD Saved</option>
+                              	<option value="1">GD Submitted</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">Consignment Mode</label>
+                              <select class="form-control" name="consignment_mode">
+                              	<option value="">Select Consignment Mode</option>
+                              	<option value="1">FCL</option>
+                              	<option value="2">Sea LCL</option>
+                              	<option value="3">Air LCL</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">FI Status</label>
+                              <select class="form-control" name="fi">
+                              	<option value="">Select FI Status</option>
+                              	<option value="0">FI Pending</option>
+                              	<option value="1">FI Expired</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">Original Documents</label>
+                              <select class="form-control" name="documents">
+                              	<option value="">Select Original Documents</option>
+                              	<option value="0">Pending</option>
+                              	<option value="1">Received</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">Shipment Status</label>
+                              <select class="form-control" name="shipment_status">
+                              	<option value="">Select Shipment Status</option>
+                              	<option value="0">Pending</option>
+                              	<option value="1">Delivered</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">D/O Status</label>
+                              <select class="form-control" name="do_status">
+                              	<option value="">Select D/O Status</option>
+                              	<option value="0">Pending</option>
+                              	<option value="1">Collected</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">NOC Status</label>
+                              <select class="form-control" name="noc_status">
+                              	<option value="">Select NOC Status</option>
+                              	<option value="1">Expired</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">EIR Status</label>
+                              <select class="form-control" name="eir_status">
+                              	<option value="">Select EIR Status</option>
+                              	<option value="0">Pending</option>
+                              	<option value="1">Received</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">Refund Case Submitted Status</label>
+                              <select class="form-control" name="refunc_case_submitted_status">
+                              	<option value="">Select Refund Case Submitted Status</option>
+                              	<option value="0">Pending</option>
+                              	<option value="1">Received</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3">
+                              <label class="form-label">Refund Deposit Status</label>
+                              <select class="form-control" name="refund_deposit">
+                              	<option value="">Select Refund Deposit Status</option>
+                              	<option value="0">Pending</option>
+                              	<option value="1">Received</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-3 align-items-end">
+                          	<button type="submit" class="btn btn-primary">Apply Filters</button>
+                          </div>
+                      </div>
+               </form>
+           </div>
+				</div>
+
+				<div class="card-body pt-0">
+					<div class="table-responsive active-projects">
+						<div class="d-flex justify-content-between align-items-center">
+							<div class="tbl-caption px-0">
+								<h3 class="heading mb-0">Shipments</h4>
+							</div>
+							<a href="add-shipment" class="btn btn-primary">Add Shipment</a>
+						</div>
+						<table id="example" class="display table" style="min-width: 845px">
+							<thead>
+								<tr>
+									<th class="text-center">Actions</th>
+									<th class="text-center">S #.</th>
+									<th class="text-center">File Date</th>
+									<th class="text-center">File #.</th>
+									<th class="text-center">Importer</th>
+									<th class="text-center">Party Ref</th>
+									<th class="text-center">BL No.</th>
+									<th class="text-center">Invoice Value</th>
+									<th class="text-center">Quantity</th>
+									<th class="text-center">Item Description</th>
+									<th class="text-center">Arrival</th>
+									<th class="text-center">Shipping Line</th>
+									<th class="text-center">Consignor Name</th>
+									<th class="text-center">Docs <br>Status</th>
+									<th class="text-center">F.I <br>Status</th>
+									<th class="text-center">Funds Demand<br> Send on</th>
+									<th class="text-center">D.O <br>Status</th>
+									<th class="text-center">GD <br>Status</th>
+									<th class="text-center">Bill <br>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+									$selectshipments = mysqli_query($con, "SELECT * FROM `shipment` ORDER BY id DESC");
+									if(mysqli_num_rows($selectshipments) > 0) {
+										$sno = 1;
+										while($shipments_arr = mysqli_fetch_array($selectshipments)) {
+											$totalPackage = '0 Box';
+											if($shipments_arr['package_no'] != '') {
+												$pkg_no = explode('||', $shipments_arr['package_no']);
+												$totalPackage = count($pkg_no);
+												if($totalPackage > 1) {
+													$totalPackage .= ' Boxes';
+												} else {
+													$totalPackage .= ' Box';
+												}
+											}
+
+											$consignment_mode = $shipments_arr['shipment_mode'];
+
+											$copy_docx_rcvd_on = '';
+											$original_docx_rcvd_on = '';
+											$fi_status = '';
+											if($consignment_mode != 'Air LCL') {
+												if($shipments_arr['sea_bl_copy_status'] == 'Received') {
+													$copy_docx_rcvd_on = '<span class="badge badge-success">'. $shipments_arr['sea_bl_copy_received_date'] .'</span>';
+												} else if($shipments_arr['sea_bl_copy_status'] == 'Pending') {
+													$copy_docx_rcvd_on = '<span class="badge badge-danger">'. $shipments_arr['sea_bl_copy_status'] .'</span>';
+												}
+
+												// if($shipments_arr['sea_bl_original_status'] == 'Received') {
+												// 	$bl_no = '<span class="badge badge-success">'. $shipments_arr['sea_bl_original_received_date'] .'</span>';
+												// } else if($shipments_arr['sea_bl_original_status'] == 'Pending') {
+												// 	$bl_no = '<span class="badge badge-danger">'. $shipments_arr['sea_bl_original_status'] .'</span>';
+												// }
+
+
+												if($shipments_arr['sea_fl_approved_date'] != '') {
+													$fi_status = '<span class="badge badge-success">'. $shipments_arr['sea_fl_approved_date'] .'</span>';
+												} else {
+													$fi_status = '<span class="badge badge-danger">Pending</span>';
+												}
+
+											} else {
+												if($shipments_arr['air_lc_status'] == 'Received') {
+													$copy_docx_rcvd_on = '<span class="badge badge-success">'. $shipments_arr['air_lc_received_date'] .'</span>';
+												} else if($shipments_arr['air_lc_status'] == 'Pending') {
+													$copy_docx_rcvd_on = '<span class="badge badge-danger">'. $shipments_arr['air_lc_status'] .'</span>';
+												}
+
+												// if($shipments_arr['air_hawb_status'] == 'Received') {
+												// 	$bl_no = '<span class="badge badge-success">'. $shipments_arr['air_hawb_received_date'] .'</span>';
+												// } else if($shipments_arr['air_hawb_status'] == 'Pending') {
+												// 	$bl_no = '<span class="badge badge-danger">'. $shipments_arr['air_hawb_status'] .'</span>';
+												// }
+
+												if($shipments_arr['air_fl_approved_date'] != '') {
+													$fi_status = '<span class="badge badge-success">'. $shipments_arr['air_fl_approved_date'] .'</span>';
+												} else {
+													$fi_status = '<span class="badge badge-danger">Pending</span>';
+												}
+											}
+
+											if($shipments_arr['shipment_arrival'] != '') {
+												$shipment_arrival = '<span class="badge badge-success">'. $shipments_arr['shipment_arrival'] .'</span>';
+											} else {
+												$shipment_arrival = '<span class="badge badge-danger">Pending</span>';
+											}
+											if($shipments_arr['funds_demand_send_on'] != '') {
+												$funds_demand_send_on = '<span class="badge badge-success">'. $shipments_arr['funds_demand_send_on'] .'</span>';
+											} else {
+												$funds_demand_send_on = '<span class="badge badge-danger">Pending</span>';
+											}
+											if($shipments_arr['do_collect_on'] != '') {
+												$do_collect_on = '<span class="badge badge-success">'. $shipments_arr['do_collect_on'] .'</span>';
+											} else {
+												$do_collect_on = '<span class="badge badge-danger">Pending</span>';
+											}
+											if($shipments_arr['shipment_delivered_on'] != '') {
+												$shipment_delivered_on = '<span class="badge badge-success">'. $shipments_arr['shipment_delivered_on'] .'</span>';
+											} else {
+												$shipment_delivered_on = '<span class="badge badge-danger">Pending</span>';
+											}
+
+											$gd_status = $shipments_arr['gd_status'];
+											if($gd_status != '') {
+												$gd_status_arr = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM gd_status WHERE id = $gd_status"));
+												$gd_status_name = $gd_status_arr['name'];
+											}
+
+											$client = $shipments_arr['client'];
+											$clientArr = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM client WHERE id = $client"));
+											$client_name = $clientArr['name'];
+
+											$shipping_line = $shipments_arr['shipping_line'];
+											$shipping_lineArr = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM shipping_line WHERE id = $shipping_line"));
+											$shipping_line_name = $shipping_lineArr['name'];
+
+											$bill_status = $shipments_arr['bill_status'];
+											$bill_statusArr = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM bill_status WHERE id = $bill_status"));
+											$bill_status_name = $bill_statusArr['name'];
+
+
+											$currency = $shipments_arr['currency'];
+											$currencyArr = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM currency WHERE id = $currency"));
+											$currency_name = $currencyArr['name'];
+									 ?>
+										<tr>
+											<td>
+												<div class="dropdown ms-auto text-start c-pointer">
+													<div class="btn-link" data-bs-toggle="dropdown">
+														<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
+													</div>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a class="dropdown-item" href="view-shipment?id=<?php echo $shipments_arr['id'] ?>">View Shipment</a>
+														<a class="dropdown-item" href="add-shipment?id=<?php echo $shipments_arr['id'] ?>">Edit Shipment</a>
+														<a class="dropdown-item delete-shipment" href="javascript:;" data-id="<?php echo $shipments_arr['id'] ?>">Delete Shipment</a>
+													</div>
+												</div>
+											</td>
+											<td><?php echo $sno++; ?></td>
+											<td><?php echo date('d-M-y', strtotime($shipments_arr['created_at'])); ?></td>
+											<td><?php echo $shipments_arr['file_no']; ?></td>
+											<td><?php echo $client_name; ?></td>
+											<td><?php echo $shipments_arr['party_refrence']; ?></td>
+											<td><?php echo $bl_no; ?></td>
+											<td><?php echo ($shipments_arr['invoice_value'] != '') ? $currency_name . ' ' . $shipments_arr['invoice_value'] : '-'; ?></td>
+											<td>-</td>
+											<td><?php echo $shipments_arr['item_description']; ?></td>
+											<td><?php echo $shipments_arr['shipment_arrival']; ?></td>
+											<td><?php echo $shipping_line_name; ?></td>
+											<td><?php echo $shipments_arr['consignor_name']; ?></td>
+											
+											<td><?php 
+													if($consignment_mode != 'Air LCL') {
+														if($shipments_arr['sea_invoice_status'] != 'Not Required') {
+															if($shipments_arr['sea_invoice_status'] == 'Received') {
+																?>
+																	<span class="badge badge-success">Sea Invoice: <?php echo $shipments_arr['sea_invoice_received_date'] ?></span>
+																<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea Invoice: Pending</span>
+															<?php
+															}
+														}
+														if($shipments_arr['sea_packing_list_status'] != 'Not Required') {
+															if($shipments_arr['sea_packing_list_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Sea Packing List: <?php echo $shipments_arr['sea_packing_list_received_date'] ?></span>
+															<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea Packing List: Pending</span>
+															<?php
+															}
+														}
+														if($shipments_arr['sea_bl_original_status'] != 'Not Required') {
+															if($shipments_arr['sea_bl_original_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Sea BL Original: <?php echo $shipments_arr['sea_bl_original_received_date'] ?></span>
+															<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea BL Original: Pending</span>
+															<?php
+															}
+														}
+														if($shipments_arr['sea_bl_copy_status'] != 'Not Required') {
+															if($shipments_arr['sea_bl_copy_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Sea BL Copy: <?php echo $shipments_arr['sea_bl_copy_received_date'] ?></span>
+															<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea BL Copy: Pending</span>
+															<?php
+															}
+														}
+														if($shipments_arr['sea_lc_status'] != 'Not Required') {
+															if($shipments_arr['sea_lc_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Sea LC: <?php echo $shipments_arr['sea_lc_received_date'] ?></span>
+															<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea LC: Pending</span>
+															<?php
+															}
+														}
+														if($shipments_arr['sea_insurance_memo_status'] != 'Not Required') {
+															if($shipments_arr['sea_insurance_memo_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Sea Insurance Memo: <?php echo $shipments_arr['sea_insurance_memo_received_date'] ?></span>
+															<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea Insurance Memo: Pending</span>
+															<?php
+															}
+														}
+														if($shipments_arr['sea_fta_status'] != 'Not Required') {
+															if($shipments_arr['sea_fta_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Sea FTA: <?php echo $shipments_arr['sea_fta_received_date'] ?></span>
+															<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea FTA: Pending</span>
+															<?php
+															}
+														}
+														if($shipments_arr['sea_others_status'] != 'Not Required') {
+															if($shipments_arr['sea_others_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Sea Others: <?php echo $shipments_arr['sea_others_date'] ?></span>
+															<?php
+															} else { ?>
+																<span class="badge badge-danger">Sea Others: Pending</span>
+															<?php
+															}
+														}
+													} else {
+
+														if($shipments_arr['air_invoice_status'] != 'Not Required'){
+															if($shipments_arr['air_invoice_status'] == 'Received') {
+																?>
+																	<span class="badge badge-success">Air Invoice: <?php echo $shipments_arr['air_invoice_received_date']; ?></span>
+																<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air Invoice: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_packing_list_status'] != 'Not Required'){
+															if($shipments_arr['air_packing_list_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air Packing List: <?php echo $shipments_arr['air_packing_list_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air Packing List: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_bank_endorsement_status'] != 'Not Required'){
+															if($shipments_arr['air_bank_endorsement_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air Bank Endorsement: <?php echo $shipments_arr['air_bank_endorsement_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air Bank Endorsement: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_hawb_status'] != 'Not Required'){
+															if($shipments_arr['air_hawb_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air HAWB: <?php echo $shipments_arr['air_hawb_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air HAWB: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_mawb_status'] != 'Not Required'){
+															if($shipments_arr['air_mawb_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air MAWB: <?php echo $shipments_arr['air_mawb_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air MAWB: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_lc_status'] != 'Not Required'){
+															if($shipments_arr['air_lc_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air LC: <?php echo $shipments_arr['air_lc_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air LC: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_insurance_memo_status'] != 'Not Required'){
+															if($shipments_arr['air_insurance_memo_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air Insurance Memo: <?php echo $shipments_arr['air_insurance_memo_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air Insurance Memo: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_fta_status'] != 'Not Required'){
+															if($shipments_arr['air_fta_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air FTA: <?php echo $shipments_arr['air_fta_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air FTA: Pending</span>
+																<?php
+															}
+														}
+														if($shipments_arr['air_others_status'] != 'Not Required'){
+															if($shipments_arr['air_others_status'] == 'Received') {
+															?>
+																<span class="badge badge-success">Air Others: <?php echo $shipments_arr['air_others_received_date']; ?></span>
+															<?php
+															} else {
+																?>
+																	<span class="badge badge-warning">Air Others: Pending</span>
+																<?php
+															}
+														}
+
+													}?>
+												</td>
+											<td>
+												<?php if($consignment_mode != 'Air LCL') {
+															if($shipments_arr['sea_fl_approved_date'] != '') {
+																?>
+																<span class="badge badge-success"><?php echo $shipments_arr['sea_fl_approved_date']; ?></span>
+																<?php
+															} else {
+																?>
+																<span class="badge badge-danger">Pending</span>
+																<?php
+															}
+													  } else {
+													  	    if($shipments_arr['air_fl_approved_date'] != '') {
+																?>
+																<span class="badge badge-success"><?php echo $shipments_arr['air_fl_approved_date']; ?></span>
+																<?php
+															} else {
+																?>
+																<span class="badge badge-danger">Pending</span>
+																<?php
+															}
+													  } ?>
+											</td>
+											<td>
+												<?php 
+														if($shipments_arr['funds_demand_send_on'] != '') {
+															?>
+															<span class="badge badge-success"><?php echo $shipments_arr['funds_demand_send_on']; ?></span>
+															<?php
+														} else {
+															?>
+															<span class="badge badge-danger">Pending</span>
+															<?php
+														}
+												 ?>
+											</td>
+											<td>
+												<?php 
+														if($shipments_arr['do_collect_on'] != '') {
+															?>
+															<span class="badge badge-success">Collect: <?php echo $shipments_arr['do_collect_on']; ?></span>
+															<?php
+														} else {
+															?>
+															<span class="badge badge-danger">Collect: Pending</span>
+															<?php
+														}
+														if($shipments_arr['noc_valid_till'] != '') {
+															?>
+															<span class="badge badge-success">NOC: <?php echo $shipments_arr['noc_valid_till']; ?></span>
+															<?php
+														} else {
+															?>
+															<span class="badge badge-danger">NOC: Pending</span>
+															<?php
+														}
+												 ?>
+											</td>
+											<td><?php echo $gd_status_name; ?></td>
+											<td><?php echo $bill_status_name . '<br>' . $shipments_arr['bill_status_on']; ?></td>
+										</tr>
+									<?php } 
+									}?>
+							</tbody>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+			
+		
+		</div>
+	</div>
+</div>
+</div>
+
+<!--**********************************
+Content body end
+***********************************-->
+
+<?php include('inc/footer.php'); ?>
+<script>
+jQuery(document).on('click', '.delete-shipment', function(){
+var curId = jQuery(this).data('id');
+var curRow = jQuery(this);
+Swal.fire({
+icon: 'warning',
+title: 'Warning',
+text: 'Do you want to delete this shipment?',
+allowOutsideClick: false,
+showDenyButton: true,
+confirmButtonText: 'Yes',
+}).then((result) => {
+if(result.isConfirmed) {
+  $.ajax({
+        url: 'actions/ajax.php',
+        type: 'POST',
+        data: {
+        	shipment_id : curId,
+        	reason : 'delete_shipment'
+        },
+        success: function (response) {
+        	console.log(response);
+            response = JSON.parse(response);
+			if(response.error == 'yes') {
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text: response.message,
+				})
+			} else {
+				Swal.fire({
+				  icon: 'success',
+				  title: response.message,
+				}).then((result) => {
+				  curRow.parents('tr').hide();
+				})
+			}
+        },
+    });	
+	
+}
+})
+})
+
+jQuery('.shipment_status').change(function(){
+var curForm = jQuery(this).parents('form')[0];
+var formData = new FormData(curForm);
+formData.append("reason", "shipment_status");
+$.ajax({
+url: 'actions/ajax.php',
+type: 'POST',
+data: formData,
+success: function (response) {
+	console.log(response);
+response = JSON.parse(response);
+	if(response.error == 'yes') {
+		Swal.fire({
+		  icon: 'error',
+		  title: 'Oops...',
+		  text: response.message,
+		})
+	} else {
+		Swal.fire({
+		  icon: 'success',
+		  title: response.message,
+		})
+	}
+},
+cache: false,
+contentType: false,
+processData: false
+});	
+})
+jQuery('.advance-filter').click(function(){
+jQuery('.filter-form').slideToggle();
+})
+</script>

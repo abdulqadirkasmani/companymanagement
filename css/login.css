@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+section#login {
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    background-image: url('../images/setbg.jpg');
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+}
+#login .login-rt {
+    height: 100vh;
+}
+#login .login-rt .rt-top {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+#login .login-rt .login-box {
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height:  100%;
+    width: 30%;
+}
+
+#login .login-rt .login-box h3 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    margin-bottom: 20px;
+      font-family: poppins;
+    text-align: center;
+}
+#login .login-rt .login-box label {
+    display: block;
+    margin-bottom: 5px;
+      color: #373737;
+}
+
+#login .login-rt .login-box input {
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(65, 73, 78, 0.3);
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  width: 100%;
+  color: #8A96A5;
+  outline: none;
+  border-top: 0 !important;
+  border-left: 0;
+  padding-left: 45px;
+  border-right: 0;
+  height: 57px;
+  font-size: 14px;
+}
+#login .login-rt .login-box input::placeholder {
+  color: #0d0d0d !important;
+}
+#login .login-rt .login-box input.error-inp {
+    border-color: red;
+}
+#login .login-rt .login-box .form-field {
+    margin-bottom: 20px;
+}
+
+#login .login-rt .login-box .form-field .pass-field {
+    position: relative;
+}
+
+#login .login-rt .login-box .form-field .pass-field img {
+  position: absolute;
+  right: 11px;
+  cursor: pointer;
+  top: 0;
+  bottom: 0;
+  margin-top: auto !important;
+  margin-bottom: auto;
+}
+/* #login .login-rt .login-box .form-field .pass-field img.eyefull {
+    top: 10px;
+    right: 21px;
+} */
+#login .login-rt .login-box .form-field.flex-area {display: flex;align-items: center;justify-content: space-between;margin-top: 20px;margin-bottom: 20px;}
+
+#login .login-rt .login-box .flex-area label {
+    margin-bottom: 0;
+}
+
+#login .login-rt .login-box .form-field.flex-area a {
+    font-weight: 400;
+    font-size: 15px;
+    color: #1778E9;
+    text-decoration: none;
+}
+#login .login-rt .login-box button {
+  border-radius: 4px;
+  background-color: #0173A1;
+  border: none;
+  width: 100%;
+  color: #fff;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 10px 45px;
+  margin-top: 12px;
+  background-image: linear-gradient(to top, #0173a1, #0178a7, #007eac, #0083b2, #0089b7);
+}
+#login .login-rt .login-box button:hover{
+    opacity: 0.8;
+}
+/* #login .login-rt .login-box form {
+    margin-bottom: 25px;
+} */
+.titlearea a {
+    display: block;
+}
+.log-reg-tabs {
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 10px #e3e3e3;
+  padding: 46px 30px;
+border: 1px solid #c4c4c4;
+}
+.em_field {
+  position: relative;
+}
+#login .login-rt .login-box .form-field img.user_ic {
+  position: absolute;
+  width: 24px;
+  bottom: 0;
+  top: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+  left: 0;
+}
+.login-box .titlearea img {
+    margin-bottom: 25px
+}
+.log-reg-tabs{
+      overflow: hidden;
+    position: relative;
+}
+.log-reg-tabs::after {
+  content: "Login";
+  position: absolute;
+  background: #323232;
+  right: -31px;
+  top: 13px;
+  color: #fff;
+  width: 130px;
+  text-align: center;
+  transform: rotate(39deg);
+  padding: 3px;
+  font-weight: 600;
+}
+.page-id-01{
+    overflow: hidden;
+}
+.swal2-confirm.swal2-styled {
+    background-color: #0173A1;
+    background-image: linear-gradient(to top, #0173a1, #0178a7, #007eac, #0083b2, #0089b7);
+}
+@media only screen and (max-width: 1400px){
+    #login .login-rt .login-box{
+      width: 37% !important;
+    }
+    .login-box .titlearea img {
+      width: 163px !important;
+      height: auto !important;
+    }
+}
+@media only screen and (max-width: 767px){
+    #login .login-rt .login-box{
+      width: 100% !important;
+    }
+    section#login{
+          background-position: 49% !important;
+    }
+}
